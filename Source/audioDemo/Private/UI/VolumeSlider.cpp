@@ -12,6 +12,6 @@ void UVolumeSlider::NativeConstruct()
 
 void UVolumeSlider::ValueChanged(float newValue)
 {
-	UGameplayStatics::SetSoundMixClassOverride(GetWorld(), SoundMixerClass, SoundClass, newValue);
+	UGameplayStatics::SetSoundMixClassOverride(GetWorld(), SoundMixerClass, SoundClass, newValue, 1.0f, 0.0f);
 	UGameplayStatics::PushSoundMixModifier(GetWorld(), SoundMixerClass);
 }

@@ -14,4 +14,11 @@ class AAudioGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	class USoundWave* titleSong;
+
+protected:
+	virtual void BeginPlay() override;
 };
