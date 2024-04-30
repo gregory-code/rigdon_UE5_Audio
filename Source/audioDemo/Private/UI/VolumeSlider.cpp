@@ -3,6 +3,7 @@
 
 #include "UI/VolumeSlider.h"
 #include "Components/Slider.h"
+#include "Components/ProgressBar.h"
 #include "Kismet/GameplayStatics.h"
 
 void UVolumeSlider::NativeConstruct()
@@ -12,6 +13,7 @@ void UVolumeSlider::NativeConstruct()
 
 void UVolumeSlider::ValueChanged(float newValue)
 {
+	sliderProgress->SetPercent(newValue);
 	UGameplayStatics::SetSoundMixClassOverride(GetWorld(), SoundMixerClass, SoundClass, newValue, 1.0f, 0.0f);
 	UGameplayStatics::PushSoundMixModifier(GetWorld(), SoundMixerClass);
 }

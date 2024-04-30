@@ -29,4 +29,7 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	class USlider* volumeSlider;
+
+	UPROPERTY(meta = (BindWidget))
+	class UProgressBar* sliderProgress;
 };

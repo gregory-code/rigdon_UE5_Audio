@@ -24,12 +24,12 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* quitButton;
 
-	UPROPERTY(meta = (BindWidget))
-	class UVolumeSlider* masterSlider;
+	//UPROPERTY(meta = (BindWidget))
+	//class UVolumeSlider* masterSlider;
 
-	UPROPERTY(meta = (BindWidget))
-	class UVolumeSlider* musicSlider;
-
-	UPROPERTY(meta = (BindWidget))
-	class UVolumeSlider* SFXSlider;
+	//UPROPERTY(meta = (BindWidget))
+	//class UVolumeSlider* musicSlider;
+	
+	//UPROPERTY(meta = (BindWidget))
+	//class UVolumeSlider* SFXSlider;
 };

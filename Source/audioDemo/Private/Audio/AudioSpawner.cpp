@@ -1,0 +1,72 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "Audio/AudioSpawner.h"
+
+// Sets default values
+AAudioSpawner::AAudioSpawner()
+{
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+
+}
+
+// Called when the game starts or when spawned
+void AAudioSpawner::BeginPlay()
+{
+	Super::BeginPlay();
+
+	for (int32 i = 0; i < PoolSize; i++)
+	{
+		UAudioComponent* audioComponent = NewObject<UAudioComponent>(this);
+		audioComponent->RegisterComponent();
+		audioComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		AudioSourcePool.Add(audioComponent);
+	}
+	
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAudioSpawner::SpawnAudio, SpawnTime, false);
+}
+
+// Called every frame
+void AAudioSpawner::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+void AAudioSpawner::SpawnAudio()
+{
+	if (soundCollection.Num() <= 0)
+		return;
+
+	int32 index = FMath::RandRange(0, soundCollection.Num() - 1);
+	USoundBase* sound = soundCollection[index];
+
+	if (sound == nullptr)
+		return;
+
+	UAudioComponent* availableAudioSource = GetAvailableAudioSourceComponent();
+
+	if (availableAudioSource == nullptr)
+		return;
+
+	availableAudioSource->SetSound(sound);
+	FVector spawnLocation = GetActorLocation();
+	availableAudioSource->SetWorldLocation(spawnLocation);
+	availableAudioSource->Play();
+
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAudioSpawner::SpawnAudio, SpawnTime, false);
+}
+
+UAudioComponent* AAudioSpawner::GetAvailableAudioSourceComponent()
+{
+	for (UAudioComponent* audioSource : AudioSourcePool)
+	{
+		if (!audioSource->IsPlaying())
+		{
+			return audioSource;
+		}
+	}
+	return nullptr;
+}
+
