@@ -50,6 +50,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* lookInputAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Menu")
+	UInputAction* menuInputAction;
+
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -58,6 +61,11 @@ private:
 
 	UFUNCTION()
 	void Look(const FInputActionValue& InputValue);
+
+	UFUNCTION()
+	void Menu();
+
+	bool bInMenu;
 
 	FVector GetMoveFwdDir() const;
 	FVector GetMoveRightDir() const;

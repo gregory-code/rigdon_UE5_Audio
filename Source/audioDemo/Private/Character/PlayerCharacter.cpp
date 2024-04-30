@@ -9,6 +9,7 @@
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
+#include "Framework/AudioPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -22,7 +23,7 @@ APlayerCharacter::APlayerCharacter()
 	viewCamera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
 
 	cameraBoom->bUsePawnControlRotation = true;
-	cameraBoom->TargetArmLength = 500.0f;
+	cameraBoom->TargetArmLength = 0.0f;
 
 	bUseControllerRotationYaw = false;
 
@@ -36,8 +37,12 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	menuInputAction->bTriggerWhenPaused = true;
+
 	FInputModeGameOnly input;
 	GetWorld()->GetFirstPlayerController()->SetInputMode(input);
+
+	MyPlayerController = Cast<AAudioPlayerController>(GetController());
 }
 
 void APlayerCharacter::PawnClientRestart() // Treating this as begin play ???
@@ -62,6 +67,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	{
 		enhancedInputComponent->BindAction(moveInputAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Move);
 		enhancedInputComponent->BindAction(lookInputAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
+		enhancedInputComponent->BindAction(menuInputAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Menu);
 	}
 }
 
@@ -78,6 +84,17 @@ void APlayerCharacter::Look(const FInputActionValue& InputValue)
 	FVector2D input = InputValue.Get<FVector2D>();
 	AddControllerYawInput(input.X);
 	AddControllerPitchInput(-input.Y);
+}
+
+void APlayerCharacter::Menu()
+{
+	if (MyPlayerController)
+	{
+		bInMenu = !bInMenu;
+
+		MyPlayerController->Menu(bInMenu);
+	}
+
 }
 
 

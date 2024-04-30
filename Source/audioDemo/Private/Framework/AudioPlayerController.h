@@ -14,4 +14,27 @@ class AAudioPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
+public:
+	// This function calls only on the server
+	virtual void OnPossess(APawn* NewPawn) override;
+
+	// This function calls on both the listening server, and the client
+	virtual void AcknowledgePossession(APawn* NewPawn) override;
+
+	UFUNCTION()
+	void Menu(bool state);
+
+private:
+	void PostPossessionSetup(APawn* NewPawn);
+
+	void SpawnGameplayUI();
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<class UPlayerUI> MenuWidgetClass;
+
+	UPROPERTY()
+	UPlayerUI* MenuUI;
+
+	UPROPERTY()
+	class APlayerCharacter* PlayerCharacter;
 };
