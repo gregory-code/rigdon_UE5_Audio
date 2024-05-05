@@ -33,6 +33,9 @@ private:
 	UPROPERTY(visibleAnywhere, Category = "View")
 	UCameraComponent* viewCamera;
 
+	UPROPERTY(visibleAnywhere, Category = "Audio")
+	class UAudioCaptureComponent* audioCapture;
+
 	//UPROPERTY(visibleAnywhere, Category = "Inventory")
 	//UInventoryComponent* inventoryComp;
 
@@ -64,6 +67,9 @@ private:
 
 	UFUNCTION()
 	void Menu();
+
+	UFUNCTION()
+	void AudioValueChanged(float newValue);
 
 	bool bInMenu;
 

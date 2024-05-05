@@ -10,6 +10,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
 #include "Framework/AudioPlayerController.h"
+#include "AudioDevice.h"
+#include "AudioCaptureComponent.h"
+#include "Components/AudioComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -18,6 +22,10 @@ APlayerCharacter::APlayerCharacter()
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>("Camera Boom");
 	viewCamera = CreateDefaultSubobject<UCameraComponent>("View Camera");
 	//inventoryComp = CreateDefaultSubobject<UInventoryComponent>("Inventory Component"); need the inventory component
+
+	audioCapture = CreateDefaultSubobject<UAudioCaptureComponent>("Audio Capture");
+	audioCapture->bAutoActivate = true;
+	audioCapture->bEnableBaseSubmix = false;
 
 	cameraBoom->SetupAttachment(GetRootComponent());
 	viewCamera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
@@ -38,6 +46,8 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	menuInputAction->bTriggerWhenPaused = true;
+
+	audioCapture->OnAudioEnvelopeValue.AddDynamic(this, &APlayerCharacter::AudioValueChanged);
 
 	FInputModeGameOnly input;
 	GetWorld()->GetFirstPlayerController()->SetInputMode(input);
@@ -95,6 +105,13 @@ void APlayerCharacter::Menu()
 		MyPlayerController->Menu(bInMenu);
 	}
 
+}
+
+void APlayerCharacter::AudioValueChanged(float newValue)
+{
+	float roundedValue = FMath::LogX(10, newValue);
+	roundedValue = UKismetMathLibrary::MapRangeClamped(roundedValue, -2.7f, -0.7f, 0.0f, 1.0f);
+	MyPlayerController->ChangeMicrophoneVolume(roundedValue);
 }
 
 

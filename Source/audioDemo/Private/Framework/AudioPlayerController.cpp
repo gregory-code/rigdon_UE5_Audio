@@ -28,11 +28,11 @@ void AAudioPlayerController::Menu(bool state)
 
 	if (state)
 	{
-		MenuUI->AddToViewport();
+		//MenuUI->AddToViewport();
 	}
 	else
 	{
-		MenuUI->RemoveFromParent();
+		//MenuUI->RemoveFromParent();
 	}
 }
 
@@ -71,5 +71,10 @@ void AAudioPlayerController::SpawnGameplayUI()
 	}
 
 	MenuUI->AddToViewport();
-	MenuUI->RemoveFromParent();
+	//MenuUI->RemoveFromParent();
+}
+
+void AAudioPlayerController::ChangeMicrophoneVolume(float newVolume)
+{
+	MenuUI->AdjustMicVolume(newVolume);
 }

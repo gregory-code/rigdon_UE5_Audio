@@ -24,6 +24,9 @@ public:
 	UFUNCTION()
 	void Menu(bool state);
 
+	UFUNCTION()
+	void ChangeMicrophoneVolume(float newVolume);
+
 private:
 	void PostPossessionSetup(APawn* NewPawn);
 

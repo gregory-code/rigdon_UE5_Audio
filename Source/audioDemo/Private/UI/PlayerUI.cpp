@@ -5,6 +5,7 @@
 #include "Components/Slider.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
+#include "Components/ProgressBar.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
@@ -25,4 +26,10 @@ void UPlayerUI::Quit()
 	{
 		UKismetSystemLibrary::QuitGame(GetWorld(), PlayerController, EQuitPreference::Quit, true);
 	}
+}
+
+void UPlayerUI::AdjustMicVolume(float newValue)
+{
+	micVolume->SetPercent(newValue);
+
 }
