@@ -21,14 +21,8 @@ public:
 	UFUNCTION()
 	void Quit();
 
-	UFUNCTION()
-	void AdjustMicVolume(float newValue);
-
 	UPROPERTY(meta = (BindWidget))
 	class UButton* quitButton;
-
-	UPROPERTY(meta = (BindWidget))
-	class UProgressBar* micVolume;
 
 	//UPROPERTY(meta = (BindWidget))
 	//class UVolumeSlider* masterSlider;

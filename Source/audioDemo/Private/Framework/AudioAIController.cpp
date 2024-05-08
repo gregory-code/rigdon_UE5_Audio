@@ -11,7 +11,9 @@ AAudioAIController::AAudioAIController()
 	AIPerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>("AI Perception Component");
 	HearingConfig = CreateDefaultSubobject<UAISenseConfig_Hearing>("Hearing Config");
 
-
+	HearingConfig->DetectionByAffiliation.bDetectEnemies = true;
+	HearingConfig->DetectionByAffiliation.bDetectNeutrals = true;
+	HearingConfig->DetectionByAffiliation.bDetectFriendlies = true;
 
 	AIPerceptionComponent->ConfigureSense(*HearingConfig);
 

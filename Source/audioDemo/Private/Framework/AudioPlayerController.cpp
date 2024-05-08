@@ -5,6 +5,7 @@
 #include "Character/PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/PlayerUI.h"
+#include "UI/MicUI.h"
 
 void AAudioPlayerController::OnPossess(APawn* NewPawn)
 {
@@ -63,6 +64,7 @@ void AAudioPlayerController::SpawnGameplayUI()
 	}
 
 	MenuUI = CreateWidget<UPlayerUI>(this, MenuWidgetClass);
+	MicUI = CreateWidget<UMicUI>(this, MicWidgetClass);
 
 	if (MenuUI == nullptr)
 	{
@@ -70,11 +72,12 @@ void AAudioPlayerController::SpawnGameplayUI()
 		return;
 	}
 
+	MicUI->AddToViewport();
 	MenuUI->AddToViewport();
 	MenuUI->RemoveFromParent();
 }
 
 void AAudioPlayerController::ChangeMicrophoneVolume(float newVolume)
 {
-	MenuUI->AdjustMicVolume(newVolume);
+	MicUI->AdjustMicVolume(newVolume);
 }

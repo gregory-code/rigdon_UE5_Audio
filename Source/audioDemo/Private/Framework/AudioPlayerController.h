@@ -38,6 +38,12 @@ private:
 	UPROPERTY()
 	UPlayerUI* MenuUI;
 
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<class UMicUI> MicWidgetClass;
+
+	UPROPERTY()
+	UMicUI* MicUI;
+
 	UPROPERTY()
 	class APlayerCharacter* PlayerCharacter;
 };

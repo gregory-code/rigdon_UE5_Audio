@@ -27,9 +27,3 @@ void UPlayerUI::Quit()
 		UKismetSystemLibrary::QuitGame(GetWorld(), PlayerController, EQuitPreference::Quit, true);
 	}
 }
-
-void UPlayerUI::AdjustMicVolume(float newValue)
-{
-	micVolume->SetPercent(newValue);
-
-}

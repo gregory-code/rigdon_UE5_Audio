@@ -26,6 +26,7 @@ APlayerCharacter::APlayerCharacter()
 	audioCapture = CreateDefaultSubobject<UAudioCaptureComponent>("Audio Capture");
 	audioCapture->bAutoActivate = true;
 	audioCapture->bEnableBaseSubmix = false;
+	audioCapture->bIsUISound = true;
 
 	cameraBoom->SetupAttachment(GetRootComponent());
 	viewCamera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
@@ -109,6 +110,8 @@ void APlayerCharacter::Menu()
 
 void APlayerCharacter::AudioValueChanged(float newValue)
 {
+	UE_LOG(LogTemp, Error, TEXT("%f, Sound"), newValue);
+
 	float roundedValue = FMath::LogX(10, newValue);
 	roundedValue = UKismetMathLibrary::MapRangeClamped(roundedValue, -2.7f, -0.7f, 0.0f, 1.0f);
 	MyPlayerController->ChangeMicrophoneVolume(roundedValue);
