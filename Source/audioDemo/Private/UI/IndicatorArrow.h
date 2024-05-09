@@ -18,6 +18,8 @@ public:
 	// Begin play
 	virtual void NativeConstruct() override;
 
+	void Rotate(float value);
+
 	UPROPERTY(meta = (BindWidget))
 	class UImage* indicatorArrow;
 };

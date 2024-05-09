@@ -27,10 +27,22 @@ public:
 	UFUNCTION()
 	void ChangeMicrophoneVolume(float newVolume);
 
+	UFUNCTION()
+	void ManageIndicatorArrow(FVector playerLocation, FVector StimulusLocation);
+
+	UFUNCTION()
+	void MoveArrow(int index, FVector playerLocation, FVector StimulusLocation);
+
 private:
 	void PostPossessionSetup(APawn* NewPawn);
 
 	void SpawnGameplayUI();
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<class UIndicatorArrow> arrowClass;
+
+	UPROPERTY()
+	TArray<class UIndicatorArrow*> currentIndicators;
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<class UPlayerUI> MenuWidgetClass;

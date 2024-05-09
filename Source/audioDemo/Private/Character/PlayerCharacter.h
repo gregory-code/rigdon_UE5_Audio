@@ -25,6 +25,11 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+
+public:
 	APlayerCharacter();
 
 	AAudioPlayerController* MyPlayerController;
@@ -32,6 +37,8 @@ public:
 	void RecievePerception(AActor* Target, FAIStimulus Stimulus);
 
 private:
+	TArray<FVector> stimulusLocations;
+
 	UPROPERTY(EditDefaultsOnly, Category = "View")
 	TSubclassOf<class AAudioResponsiveCharacter> AudioResponsiveCharacterClass;
 

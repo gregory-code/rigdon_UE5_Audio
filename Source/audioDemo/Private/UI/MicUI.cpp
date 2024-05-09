@@ -4,6 +4,7 @@
 #include "UI/MicUI.h"
 #include "Components/Slider.h"
 #include "Components/TextBlock.h"
+#include "UI/IndicatorArrow.h"
 #include "Components/Button.h"
 #include "Components/ProgressBar.h"
 #include "Kismet/KismetSystemLibrary.h"

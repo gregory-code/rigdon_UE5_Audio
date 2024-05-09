@@ -9,6 +9,7 @@
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
+#include "UI/IndicatorArrow.h"
 #include "Framework/AudioPlayerController.h"
 #include "AudioDevice.h"
 #include "AudioCaptureComponent.h"
@@ -52,7 +53,8 @@ APlayerCharacter::APlayerCharacter()
 
 void APlayerCharacter::RecievePerception(AActor* Target, FAIStimulus Stimulus)
 {
-
+	stimulusLocations.Add(Stimulus.StimulusLocation);
+	MyPlayerController->ManageIndicatorArrow(GetActorLocation(), Stimulus.StimulusLocation);
 }
 
 void APlayerCharacter::BeginPlay()
@@ -72,6 +74,16 @@ void APlayerCharacter::BeginPlay()
 	GetWorld()->GetFirstPlayerController()->SetInputMode(input);
 
 	MyPlayerController = Cast<AAudioPlayerController>(GetController());
+}
+
+void APlayerCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	for (int i = 0; i < stimulusLocations.Num(); i++)
+	{
+		MyPlayerController->MoveArrow(i, GetActorLocation(), stimulusLocations[i]);
+	}
 }
 
 void APlayerCharacter::PawnClientRestart() // Treating this as begin play ???

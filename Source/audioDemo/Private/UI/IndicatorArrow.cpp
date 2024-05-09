@@ -2,10 +2,16 @@
 
 
 #include "UI/IndicatorArrow.h"
+#include "Components/Image.h"
 
 void UIndicatorArrow::NativeConstruct()
 {
 
 
 
+}
+
+void UIndicatorArrow::Rotate(float value)
+{
+	indicatorArrow->SetRenderTransformAngle(value);
 }

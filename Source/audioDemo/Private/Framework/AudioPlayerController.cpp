@@ -5,6 +5,8 @@
 #include "Character/PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Perception/AIPerceptionComponent.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "UI/IndicatorArrow.h"
 #include "UI/PlayerUI.h"
 #include "UI/MicUI.h"
 
@@ -76,6 +78,23 @@ void AAudioPlayerController::SpawnGameplayUI()
 	MicUI->AddToViewport();
 	MenuUI->AddToViewport();
 	MenuUI->RemoveFromParent();
+}
+
+void AAudioPlayerController::ManageIndicatorArrow(FVector playerLocation, FVector StimulusLocation)
+{
+	UIndicatorArrow* arrow = CreateWidget<UIndicatorArrow>(this, arrowClass);
+	arrow->AddToViewport();
+	currentIndicators.Add(arrow);
+}
+
+void AAudioPlayerController::MoveArrow(int index, FVector playerLocation, FVector StimulusLocation)
+{
+	FRotator rotation = GetControlRotation();
+	FRotator lookAt = UKismetMathLibrary::FindLookAtRotation(playerLocation, StimulusLocation);
+
+	float targetScreenLocation = rotation.Yaw - lookAt.Yaw;
+
+	currentIndicators[index]->Rotate(targetScreenLocation * -1);
 }
 
 void AAudioPlayerController::ChangeMicrophoneVolume(float newVolume)
