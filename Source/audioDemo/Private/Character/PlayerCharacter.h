@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Framework/AudioPlayerController.h"
+#include "Perception/AIPerceptionComponent.h"
+#include "Perception/AIPerceptionTypes.h"
+#include "Perception/AISense_Hearing.h"
 #include "PlayerCharacter.generated.h"
 
 class USpringArmComponent;
@@ -26,7 +29,15 @@ public:
 
 	AAudioPlayerController* MyPlayerController;
 
+	void RecievePerception(AActor* Target, FAIStimulus Stimulus);
+
 private:
+	UPROPERTY(EditDefaultsOnly, Category = "View")
+	TSubclassOf<class AAudioResponsiveCharacter> AudioResponsiveCharacterClass;
+
+	UPROPERTY(visibleAnywhere, Category = "View")
+	class AAudioResponsiveCharacter* AudioResponsiveCharacter;
+
 	UPROPERTY(visibleAnywhere, Category = "View")
 	USpringArmComponent* cameraBoom;
 
@@ -35,6 +46,11 @@ private:
 
 	UPROPERTY(visibleAnywhere, Category = "Audio")
 	class UAudioCaptureComponent* audioCapture;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	float inRangeAMicVolume = -2.7f;
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	float inRangeBMicVolume = -0.7f;
 
 	//UPROPERTY(visibleAnywhere, Category = "Inventory")
 	//UInventoryComponent* inventoryComp;

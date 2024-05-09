@@ -2,6 +2,8 @@
 
 
 #include "Audio/AudioSpawner.h"
+#include "Engine/World.h"
+#include "Perception/AISense_Hearing.h"
 
 // Sets default values
 AAudioSpawner::AAudioSpawner()
@@ -31,7 +33,6 @@ void AAudioSpawner::BeginPlay()
 void AAudioSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AAudioSpawner::SpawnAudio()

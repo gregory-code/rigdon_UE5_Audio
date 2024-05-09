@@ -4,6 +4,7 @@
 #include "Framework/AudioPlayerController.h"
 #include "Character/PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "Perception/AIPerceptionComponent.h"
 #include "UI/PlayerUI.h"
 #include "UI/MicUI.h"
 

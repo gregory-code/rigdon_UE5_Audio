@@ -4,6 +4,8 @@
 #include "Framework/AudioAIController.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Hearing.h"
+#include "Audio/AudioResponsiveCharacter.h"
+#include "Perception/AIPerceptionTypes.h"
 #include "Character/PlayerCharacter.h"
 
 AAudioAIController::AAudioAIController()
@@ -17,20 +19,29 @@ AAudioAIController::AAudioAIController()
 
 	AIPerceptionComponent->ConfigureSense(*HearingConfig);
 
+	AIPerceptionComponent->SetDominantSense(UAISense_Hearing::StaticClass());
+
 }
 
 void AAudioAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UE_LOG(LogTemp, Error, TEXT("Init One"));
+
 	AIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &AAudioAIController::PerceptionUpdated);
 }
 
 void AAudioAIController::PerceptionUpdated(AActor* Target, FAIStimulus Stimulus)
 {
-	UE_LOG(LogTemp, Error, TEXT("Heard something"));
+	AAudioResponsiveCharacter* myCharacter = Cast<AAudioResponsiveCharacter>(GetPawn());
+	if (myCharacter)
+	{
+		myCharacter->RecievePerception(Target, Stimulus);
+	}
 }
 
 void AAudioAIController::PerceptionForgotten(AActor* Target)
 {
+
 }

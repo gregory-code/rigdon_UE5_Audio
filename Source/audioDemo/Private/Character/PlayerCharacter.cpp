@@ -13,8 +13,14 @@
 #include "AudioDevice.h"
 #include "AudioCaptureComponent.h"
 #include "Components/AudioComponent.h"
+#include "Perception/AIPerceptionComponent.h"
+#include "Perception/AIPerceptionTypes.h"
+#include "Perception/AISense_Hearing.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Framework/AudioAIController.h"
+#include "Audio/AudioResponsiveCharacter.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -27,6 +33,8 @@ APlayerCharacter::APlayerCharacter()
 	audioCapture->bAutoActivate = true;
 	audioCapture->bEnableBaseSubmix = false;
 	audioCapture->bIsUISound = true;
+
+	audioCapture->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 
 	cameraBoom->SetupAttachment(GetRootComponent());
 	viewCamera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
@@ -42,9 +50,19 @@ APlayerCharacter::APlayerCharacter()
 	GetCharacterMovement()->JumpZVelocity = 600.0f;
 }
 
+void APlayerCharacter::RecievePerception(AActor* Target, FAIStimulus Stimulus)
+{
+
+}
+
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	AudioResponsiveCharacter = GetWorld()->SpawnActor<AAudioResponsiveCharacter>(AudioResponsiveCharacterClass, GetActorLocation(), GetActorRotation());
+	AudioResponsiveCharacter->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+	AudioResponsiveCharacter->SetActorLocation(FVector(0,0,0));
+	AudioResponsiveCharacter->SetAsPlayer();
 
 	menuInputAction->bTriggerWhenPaused = true;
 
@@ -110,10 +128,10 @@ void APlayerCharacter::Menu()
 
 void APlayerCharacter::AudioValueChanged(float newValue)
 {
-	UE_LOG(LogTemp, Error, TEXT("%f, Sound"), newValue);
+	//UE_LOG(LogTemp, Error, TEXT("%f, Sound"), newValue);
 
 	float roundedValue = FMath::LogX(10, newValue);
-	roundedValue = UKismetMathLibrary::MapRangeClamped(roundedValue, -2.7f, -0.7f, 0.0f, 1.0f);
+	roundedValue = UKismetMathLibrary::MapRangeClamped(roundedValue, inRangeAMicVolume, inRangeBMicVolume, 0.0f, 1.0f);
 	MyPlayerController->ChangeMicrophoneVolume(roundedValue);
 }
 
