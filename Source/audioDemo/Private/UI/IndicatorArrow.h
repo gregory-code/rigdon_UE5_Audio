@@ -21,5 +21,5 @@ public:
 	void Rotate(float value);
 
 	UPROPERTY(meta = (BindWidget))
-	class UImage* indicatorArrow;
+	class URadialSlider* indicatorSlider;
 };

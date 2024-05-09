@@ -56,6 +56,8 @@ void AAudioSpawner::SpawnAudio()
 	availableAudioSource->SetWorldLocation(spawnLocation);
 	availableAudioSource->Play();
 
+	UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), 1, this);
+
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAudioSpawner::SpawnAudio, SpawnTime, false);
 }
 

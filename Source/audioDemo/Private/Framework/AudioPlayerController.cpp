@@ -92,9 +92,12 @@ void AAudioPlayerController::MoveArrow(int index, FVector playerLocation, FVecto
 	FRotator rotation = GetControlRotation();
 	FRotator lookAt = UKismetMathLibrary::FindLookAtRotation(playerLocation, StimulusLocation);
 
-	float targetScreenLocation = rotation.Yaw - lookAt.Yaw;
+	//float targetScreenLocation = (rotation.Yaw - lookAt.Yaw);
+	float targetScreenLocation = (lookAt.Yaw - rotation.Yaw);
 
-	currentIndicators[index]->Rotate(targetScreenLocation * -1);
+	//UE_LOG(LogTemp, Error, TEXT("%f, direction"), targetScreenLocation);
+
+	currentIndicators[index]->Rotate(targetScreenLocation);
 }
 
 void AAudioPlayerController::ChangeMicrophoneVolume(float newVolume)

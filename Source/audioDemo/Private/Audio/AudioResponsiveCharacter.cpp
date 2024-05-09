@@ -79,7 +79,7 @@ void AAudioResponsiveCharacter::IndicateNoise()
 {
 	if (isPlayer == false)
 	{
-		UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), 1, this);
+		//UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), 1, this);
 	}
 }
 
