@@ -30,10 +30,9 @@ float UIndicatorArrow::Rotate(float value)
 	timeLeft -= 0.1f;
 
 
-	float valueLeft = timeLeft / maxTime;
+	float valueLeft = (timeLeft / maxTime);
 	FSliderStyle* sliderStyle = &indicatorSlider->WidgetStyle;
 	sliderStyle->NormalThumbImage.TintColor = FSlateColor(FLinearColor(1, 1, 1, valueLeft));
-
 
 	return timeLeft;
 }

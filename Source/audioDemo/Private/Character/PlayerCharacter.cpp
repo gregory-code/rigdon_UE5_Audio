@@ -155,6 +155,13 @@ void APlayerCharacter::AudioValueChanged(float newValue)
 {
 	//UE_LOG(LogTemp, Error, TEXT("%f, Sound"), newValue);
 
+	if (newValue >= 0.4f)
+	{
+		UE_LOG(LogTemp, Error, TEXT("makin' my sound"));
+		UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), newValue, this);
+	}
+
+
 	float roundedValue = FMath::LogX(10, newValue);
 	roundedValue = UKismetMathLibrary::MapRangeClamped(roundedValue, inRangeAMicVolume, inRangeBMicVolume, 0.0f, 1.0f);
 	MyPlayerController->ChangeMicrophoneVolume(roundedValue);

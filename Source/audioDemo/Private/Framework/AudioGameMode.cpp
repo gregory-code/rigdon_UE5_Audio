@@ -7,5 +7,5 @@
 
 void AAudioGameMode::BeginPlay()
 {
-	//UGameplayStatics::PlaySound2D(GetWorld(), titleSong, 1.0f, 1.0f, 1.0f);
+	UGameplayStatics::PlaySound2D(GetWorld(), titleSong, 1.0f, 1.0f, 1.0f);
 }

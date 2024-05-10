@@ -22,6 +22,14 @@ AAudioResponsiveCharacter::AAudioResponsiveCharacter()
 void AAudioResponsiveCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	for (int32 i = 0; i < PoolSize; i++)
+	{
+		UAudioComponent* audioComponent = NewObject<UAudioComponent>(this);
+		audioComponent->RegisterComponent();
+		audioComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		AudioSourcePool.Add(audioComponent);
+	}
 	
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAudioResponsiveCharacter::IndicateNoise, 8, false);
 }
@@ -55,6 +63,11 @@ void AAudioResponsiveCharacter::SetAsPlayer()
 
 void AAudioResponsiveCharacter::RecievePerception(AActor* Target, FAIStimulus Stimulus)
 {
+	if (Stimulus.StimulusLocation == GetActorLocation())
+	{
+		return;
+	}
+
 	if (isPlayer)
 	{
 		//UE_LOG(LogTemp, Error, TEXT("%sheard something"), *GetPawn()->GetName());
@@ -63,10 +76,34 @@ void AAudioResponsiveCharacter::RecievePerception(AActor* Target, FAIStimulus St
 	}
 	else
 	{
+		UE_LOG(LogTemp, Error, TEXT("makin' my sound"));
+		SpawnAudio();
 		//UE_LOG(LogTemp, Error, TEXT("Environment heard something"));
 	}
 }
 
+
+void AAudioResponsiveCharacter::SpawnAudio()
+{
+	if (soundCollection.Num() <= 0)
+		return;
+
+	int32 index = FMath::RandRange(0, soundCollection.Num() - 1);
+	USoundBase* sound = soundCollection[index];
+
+	if (sound == nullptr)
+		return;
+
+	UAudioComponent* availableAudioSource = GetAvailableAudioSourceComponent();
+
+	if (availableAudioSource == nullptr)
+		return;
+
+	availableAudioSource->SetSound(sound);
+	FVector spawnLocation = GetActorLocation();
+	availableAudioSource->SetWorldLocation(spawnLocation);
+	availableAudioSource->Play();
+}
 
 // Called to bind functionality to input
 void AAudioResponsiveCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -83,5 +120,17 @@ void AAudioResponsiveCharacter::IndicateNoise()
 
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAudioResponsiveCharacter::IndicateNoise, 8, false);
 	}
+}
+
+UAudioComponent* AAudioResponsiveCharacter::GetAvailableAudioSourceComponent()
+{
+	for (UAudioComponent* audioSource : AudioSourcePool)
+	{
+		if (!audioSource->IsPlaying())
+		{
+			return audioSource;
+		}
+	}
+	return nullptr;
 }
 

@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AIPerceptionTypes.h"
+#include "Components/AudioComponent.h"
 #include "Perception/AISense_Hearing.h"
 #include "AudioResponsiveCharacter.generated.h"
 
@@ -28,12 +29,21 @@ public:
 
 	void SetAsPlayer();
 
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	TArray<USoundBase*> soundCollection;
+
+	UPROPERTY(EditAnywhere, Category = "Audio", meta = (ClampMin = "1", UIMin = "1"))
+	int32 PoolSize = 1;
+
 	void RecievePerception(AActor* Target, FAIStimulus Stimulus);
 
 	UPROPERTY(EditDefaultsOnly, Category = "View")
 	TSubclassOf<class APlayerCharacter> playerClass;
 
 	class APlayerCharacter* myPlayer;
+
+	UFUNCTION()
+	void SpawnAudio();
 
 	UPROPERTY(visibleAnywhere, Category = "View")
 	bool isPlayer;
@@ -45,4 +55,8 @@ private:
 	FTimerHandle TimerHandle;
 
 	void IndicateNoise();
+
+	TArray<UAudioComponent*> AudioSourcePool;
+
+	UAudioComponent* GetAvailableAudioSourceComponent();
 };

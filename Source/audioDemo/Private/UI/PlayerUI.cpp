@@ -17,6 +17,7 @@ void UPlayerUI::NativeConstruct()
 	Super::NativeConstruct();
 
 	quitButton->OnClicked.AddDynamic(this, &UPlayerUI::Quit);
+	retryButton->OnClicked.AddDynamic(this, &UPlayerUI::Respawn);
 }
 
 void UPlayerUI::Quit()
@@ -27,3 +28,9 @@ void UPlayerUI::Quit()
 		UKismetSystemLibrary::QuitGame(GetWorld(), PlayerController, EQuitPreference::Quit, true);
 	}
 }
+
+void UPlayerUI::Respawn()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), FName("DemoMap"));
+}
+

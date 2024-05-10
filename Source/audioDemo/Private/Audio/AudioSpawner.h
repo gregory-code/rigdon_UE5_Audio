@@ -36,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	float SpawnTime = 0.5f;
 
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	float Range = 1;
+
 	void CreateNoise();
 
 private:

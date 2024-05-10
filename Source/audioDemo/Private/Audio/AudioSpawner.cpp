@@ -57,16 +57,14 @@ void AAudioSpawner::SpawnAudio()
 	availableAudioSource->SetWorldLocation(spawnLocation);
 	availableAudioSource->Play();
 
-	UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), 1, this);
-
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAudioSpawner::SpawnAudio, SpawnTime, false);
 }
 
 void AAudioSpawner::CreateNoise()
 {
-	UE_LOG(LogTemp, Error, TEXT("Creating noise"));
+	//UE_LOG(LogTemp, Error, TEXT("Creating noise"));
 	UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), 1.5f, this);
-	GetWorld()->GetTimerManager().SetTimer(NoiseHandle, this, &AAudioSpawner::CreateNoise, 2, false);
+	GetWorld()->GetTimerManager().SetTimer(NoiseHandle, this, &AAudioSpawner::CreateNoise, Range, false);
 }
 
 UAudioComponent* AAudioSpawner::GetAvailableAudioSourceComponent()

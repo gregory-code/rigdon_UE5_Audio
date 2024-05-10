@@ -21,8 +21,14 @@ public:
 	UFUNCTION()
 	void Quit();
 
+	UFUNCTION()
+	void Respawn();
+
 	UPROPERTY(meta = (BindWidget))
 	class UButton* quitButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* retryButton;
 
 	//UPROPERTY(meta = (BindWidget))
 	//class UVolumeSlider* masterSlider;
