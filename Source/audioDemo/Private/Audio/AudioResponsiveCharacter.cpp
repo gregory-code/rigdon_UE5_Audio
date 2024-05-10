@@ -23,7 +23,7 @@ void AAudioResponsiveCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAudioResponsiveCharacter::IndicateNoise, 2, false);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAudioResponsiveCharacter::IndicateNoise, 8, false);
 }
 
 // Called every frame
@@ -57,13 +57,13 @@ void AAudioResponsiveCharacter::RecievePerception(AActor* Target, FAIStimulus St
 {
 	if (isPlayer)
 	{
-		//UE_LOG(LogTemp, Error, TEXT("%s, heard something"), *GetPawn()->GetName());
+		//UE_LOG(LogTemp, Error, TEXT("%sheard something"), *GetPawn()->GetName());
 		myPlayer->RecievePerception(Target, Stimulus);
-		UE_LOG(LogTemp, Error, TEXT("Player heard something"));
+		//UE_LOG(LogTemp, Error, TEXT("Player heard something"));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Environment heard something"));
+		//UE_LOG(LogTemp, Error, TEXT("Environment heard something"));
 	}
 }
 
@@ -80,6 +80,8 @@ void AAudioResponsiveCharacter::IndicateNoise()
 	if (isPlayer == false)
 	{
 		//UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), 1, this);
+
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAudioResponsiveCharacter::IndicateNoise, 8, false);
 	}
 }
 

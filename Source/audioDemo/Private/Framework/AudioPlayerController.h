@@ -31,7 +31,7 @@ public:
 	void ManageIndicatorArrow(FVector playerLocation, FVector StimulusLocation);
 
 	UFUNCTION()
-	void MoveArrow(int index, FVector playerLocation, FVector StimulusLocation);
+	bool MoveArrow(int index, FVector playerLocation, FVector StimulusLocation);
 
 private:
 	void PostPossessionSetup(APawn* NewPawn);

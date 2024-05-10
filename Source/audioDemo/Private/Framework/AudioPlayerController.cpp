@@ -84,10 +84,16 @@ void AAudioPlayerController::ManageIndicatorArrow(FVector playerLocation, FVecto
 {
 	UIndicatorArrow* arrow = CreateWidget<UIndicatorArrow>(this, arrowClass);
 	arrow->AddToViewport();
+	arrow->SetTime(20);
 	currentIndicators.Add(arrow);
+
+	FRotator rotation = GetControlRotation();
+	FRotator lookAt = UKismetMathLibrary::FindLookAtRotation(playerLocation, StimulusLocation);
+	float targetScreenLocation = (lookAt.Yaw - rotation.Yaw);
+	arrow->Rotate(targetScreenLocation);
 }
 
-void AAudioPlayerController::MoveArrow(int index, FVector playerLocation, FVector StimulusLocation)
+bool AAudioPlayerController::MoveArrow(int index, FVector playerLocation, FVector StimulusLocation)
 {
 	FRotator rotation = GetControlRotation();
 	FRotator lookAt = UKismetMathLibrary::FindLookAtRotation(playerLocation, StimulusLocation);
@@ -97,7 +103,14 @@ void AAudioPlayerController::MoveArrow(int index, FVector playerLocation, FVecto
 
 	//UE_LOG(LogTemp, Error, TEXT("%f, direction"), targetScreenLocation);
 
-	currentIndicators[index]->Rotate(targetScreenLocation);
+	if (currentIndicators[index]->Rotate(targetScreenLocation) <= 0)
+	{
+		currentIndicators[index]->RemoveFromViewport();
+		currentIndicators.RemoveAt(index);
+		return true;
+	}
+
+	return false;
 }
 
 void AAudioPlayerController::ChangeMicrophoneVolume(float newVolume)

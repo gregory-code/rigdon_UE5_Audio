@@ -36,8 +36,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	float SpawnTime = 0.5f;
 
+	void CreateNoise();
+
 private:
 	FTimerHandle TimerHandle;
+	FTimerHandle NoiseHandle;
 
 	TArray<UAudioComponent*> AudioSourcePool;
 

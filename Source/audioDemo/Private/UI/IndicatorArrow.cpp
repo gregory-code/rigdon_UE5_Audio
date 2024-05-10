@@ -11,7 +11,7 @@ void UIndicatorArrow::NativeConstruct()
 
 }
 
-void UIndicatorArrow::Rotate(float value)
+float UIndicatorArrow::Rotate(float value)
 {
 	float mappedValue = (value + 180.0f) / 360.0f;
 	if (mappedValue > 1.0f)
@@ -23,10 +23,28 @@ void UIndicatorArrow::Rotate(float value)
 		mappedValue += 1.0f;
 	}
 
-	//float mappedValue = fmod(value + 180.0f, 360.0f);
-	//mappedValue /= 360;
-	UE_LOG(LogTemp, Error, TEXT("%f, direction"), mappedValue);
+
+	//UE_LOG(LogTemp, Error, TEXT("%f, direction"), mappedValue);
 
 	indicatorSlider->SetValue(mappedValue);
-	
+	timeLeft -= 0.1f;
+
+
+	float valueLeft = timeLeft / maxTime;
+	FSliderStyle* sliderStyle = &indicatorSlider->WidgetStyle;
+	sliderStyle->NormalThumbImage.TintColor = FSlateColor(FLinearColor(1, 1, 1, valueLeft));
+
+
+	return timeLeft;
+}
+
+
+
+void UIndicatorArrow::SetTime(float time)
+{
+	FSliderStyle* sliderStyle = &indicatorSlider->WidgetStyle;
+	sliderStyle->NormalThumbImage.TintColor = FSlateColor(FLinearColor(1, 1, 1, 1));
+
+	maxTime = time;
+	timeLeft = time;
 }

@@ -53,6 +53,13 @@ APlayerCharacter::APlayerCharacter()
 
 void APlayerCharacter::RecievePerception(AActor* Target, FAIStimulus Stimulus)
 {
+	for (FVector stimulus : stimulusLocations)
+	{
+		if (Stimulus.StimulusLocation == stimulus)
+		{
+			return;
+		}
+	}
 	stimulusLocations.Add(Stimulus.StimulusLocation);
 	MyPlayerController->ManageIndicatorArrow(GetActorLocation(), Stimulus.StimulusLocation);
 }
@@ -80,9 +87,15 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	AudioResponsiveCharacter->SetActorRelativeLocation(FVector(0,0,0));
+
 	for (int i = 0; i < stimulusLocations.Num(); i++)
 	{
-		MyPlayerController->MoveArrow(i, GetActorLocation(), stimulusLocations[i]);
+		if (MyPlayerController->MoveArrow(i, GetActorLocation(), stimulusLocations[i]) == true)
+		{
+			stimulusLocations.RemoveAt(i);
+			i--;
+		}
 	}
 }
 

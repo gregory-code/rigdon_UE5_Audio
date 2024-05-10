@@ -18,7 +18,15 @@ public:
 	// Begin play
 	virtual void NativeConstruct() override;
 
-	void Rotate(float value);
+	float Rotate(float value);
+
+	void SetTime(float time);
+
+	UPROPERTY()
+	float timeLeft;
+
+	UPROPERTY()
+	float maxTime;
 
 	UPROPERTY(meta = (BindWidget))
 	class URadialSlider* indicatorSlider;
