@@ -63,7 +63,7 @@ void AAudioResponsiveCharacter::SetAsPlayer()
 
 void AAudioResponsiveCharacter::RecievePerception(AActor* Target, FAIStimulus Stimulus)
 {
-	if (Stimulus.StimulusLocation == GetActorLocation())
+	if (Stimulus.StimulusLocation == GetActorLocation() || Cast<APlayerCharacter>(Target) == myPlayer)
 	{
 		return;
 	}
@@ -76,7 +76,7 @@ void AAudioResponsiveCharacter::RecievePerception(AActor* Target, FAIStimulus St
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("makin' my sound"));
+		UE_LOG(LogTemp, Error, TEXT("I heard that as envrionemnt"));
 		SpawnAudio();
 		//UE_LOG(LogTemp, Error, TEXT("Environment heard something"));
 	}

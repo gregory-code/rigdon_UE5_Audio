@@ -158,7 +158,7 @@ void APlayerCharacter::AudioValueChanged(float newValue)
 	if (newValue >= 0.4f)
 	{
 		UE_LOG(LogTemp, Error, TEXT("makin' my sound"));
-		UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), newValue, this);
+		UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), 2, this);
 	}
 
 
